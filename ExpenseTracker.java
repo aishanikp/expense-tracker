@@ -1,6 +1,8 @@
 import java.util.Scanner;
+import java.util.ArrayList;
 
 public class ExpenseTracker {
+  static ArrayList<Double> expenses = new ArrayList<>();
   public static void main(String[] args) {
     Scanner scanner = new Scanner(System.in);
     // Main method implementation
@@ -33,13 +35,24 @@ public class ExpenseTracker {
     }
   }
   static void addExpense() {
-    
-    System.out.println("Adding an expense...");
+    Scanner scanner = new Scanner(System.in);
+    System.out.println("Enter expense amount: ");
+    double amount = scanner.nextDouble();
+    expenses.add(amount);
+    System.out.println("\n");
     
   }
   static void viewExpenses() {
-    
-    System.out.println("Viewing expenses...");
+    if (expenses.isEmpty()) {
+      System.out.println("No expenses recorded.");
+      return;
+    }
+    int c=1;
+    for (double expense : expenses) {
+      System.out.println("Expense " + c + " : " + expense);
+      c++;
+    }
+    System.out.println("\n");
     
   }
 }
