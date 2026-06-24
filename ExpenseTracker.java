@@ -1,10 +1,16 @@
 import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class ExpenseTracker {
   static ArrayList<Expense> expenses = new ArrayList<>();
+  
   public static void main(String[] args) {
     Scanner scanner = new Scanner(System.in);
+    loadExpenses();
     // Main method implementation
     while (true) {
       // Display menu and handle user input
@@ -37,10 +43,11 @@ public class ExpenseTracker {
           System.exit(0);
         default:
           System.out.println("Invalid choice. Please try again.");
-      }
+      } 
     }
   }
   static void addExpense() {
+    saveExpenses();
     Scanner scanner = new Scanner(System.in);
     System.out.println("Enter expense category: ");
     String category = scanner.next();
@@ -72,4 +79,46 @@ public class ExpenseTracker {
     System.out.println("\n");
     
   }
+  static void saveExpenses(){
+    try {
+      FileWriter writer= new FileWriter("expenses.txt");
+      for (Expense expense : expenses) {
+        writer.write(expense.category + "," + expense.amount + "\n");
+      }
+      writer.close();
+    }  
+    catch (IOException e) {
+      System.out.println("An error occurred while saving expenses.");
+      e.printStackTrace();
+
+    }
+  
 }
+static void loadExpenses() {
+    try {
+      BufferedReader file = new BufferedReader(new FileReader("expenses.txt"));
+      String line;
+      while ((line = file.readLine()) != null) {
+        String[] parts = line.split(",");
+        if (parts.length != 2) {
+          continue;
+        }
+        String category = parts[0];
+        double amount = Double.parseDouble(parts[1]);
+        expenses.add(new Expense(amount, category));
+      }
+      file.close();
+    } catch (IOException e) {
+      System.out.println("An error occurred while loading expenses.");
+      e.printStackTrace();
+    } catch (NumberFormatException e) {
+      System.out.println("Invalid expense amount format in file.");
+      e.printStackTrace();
+
+    } catch (Exception e) {
+      System.out.println("Unexpected error while loading expenses.");
+      e.printStackTrace();
+    }
+  }
+}  
+
