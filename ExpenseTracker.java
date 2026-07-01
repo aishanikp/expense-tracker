@@ -39,6 +39,7 @@ public class ExpenseTracker {
           break;
         case 4:
           // Exit logic
+          saveExpenses();
           System.out.println("Thank you for using the Expense Tracker!");
           System.exit(0);
         default:
