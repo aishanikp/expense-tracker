@@ -47,7 +47,7 @@ public class ExpenseTracker {
     }
   }
   static void addExpense() {
-    saveExpenses();
+    
     Scanner scanner = new Scanner(System.in);
     System.out.println("Enter expense category: ");
     String category = scanner.next();
@@ -55,6 +55,7 @@ public class ExpenseTracker {
     double amount = scanner.nextDouble();
     expenses.add(new Expense(amount, category));
     System.out.println("\n");
+    saveExpenses();
     
   }
   static void total() {
